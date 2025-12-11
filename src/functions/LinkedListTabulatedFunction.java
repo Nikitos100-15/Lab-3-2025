@@ -229,33 +229,43 @@ public class LinkedListTabulatedFunction implements TabulatedFunction {
     }
 
     public void addPoint(FunctionPoint point) throws InappropriateFunctionPointException {
-        // проверка на null
         if (point == null) {
             throw new IllegalArgumentException("Точка не может быть null");
         }
-
         double newX = point.getX();
-
-        // поиск позиции для вставки и проверка уникальности X
-        int insertIndex = 0;
+        // если список пустой
+        if (head.getNext() == head) { // пустой циклический список
+            FunctionNode newNode = new FunctionNode(point);
+            newNode.setNext(head);
+            newNode.setPrev(head);
+            head.setNext(newNode);
+            head.setPrev(newNode);
+            pointsCount = 1;
+            return;
+        }
+        // поиск позиции для вставки
         FunctionNode current = head.getNext();
+        FunctionNode prevNode = head;
+        int index = 0;
 
         while (current != head) {
             double currentX = current.getPoint().getX();
 
-            // проверка на существующий
+            // проверка на дубликат
             if (Math.abs(currentX - newX) < 1e-10) {
                 throw new InappropriateFunctionPointException(
                         "Точка с x=" + newX + " уже существует"
                 );
             }
-            // поиск позиции (точки отсортированы по возрастанию X)
-            if (newX > currentX) {
-                insertIndex++;
-                current = current.getNext();
-            } else {
+
+            // нашли позицию
+            if (newX < currentX) {
                 break;
             }
+
+            prevNode = current;
+            current = current.getNext();
+            index++;
         }
     }
 
@@ -269,7 +279,7 @@ public class LinkedListTabulatedFunction implements TabulatedFunction {
         }
         FunctionNode node;
         if (index < pointsCount / 2) {
-            // ищем с начала (если индекс в первой половине)
+            // ищем с начала
             node = head.getNext();  // первый значащий элемент
             for (int i = 0; i < index; i++) {
                 node = node.getNext();

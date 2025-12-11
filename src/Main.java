@@ -142,12 +142,14 @@ public class Main {
             // добавляем новую точку в начало
             listFunc.addPoint(new FunctionPoint(-3, -5));
             System.out.println("После добавления точки (-3, -5) в начало:");
-            System.out.println("Первая точка: (" + listFunc.getPointX(0) + ", " + listFunc.getPointY(0) + ")");
+            System.out.println("ВСЕ точки после добавления:");
+            printAllPoints(listFunc);  // вывод всех точек(добавил после сообщения)
 
             // снова удаляем первую точку
             listFunc.deletePoint(0);
             System.out.println("После повторного удаления первой точки:");
-            System.out.println("Первая точка: (" + listFunc.getPointX(0) + ", " + listFunc.getPointY(0) + ")");
+            System.out.println("все точки после удаления:");
+            printAllPoints(listFunc);  // вывод всех точек(также добавил)
 
             // удаление последней точки
             System.out.println("Удаление последней точки");
