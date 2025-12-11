@@ -232,7 +232,9 @@ public class LinkedListTabulatedFunction implements TabulatedFunction {
         if (point == null) {
             throw new IllegalArgumentException("Точка не может быть null");
         }
+
         double newX = point.getX();
+
         // если список пустой
         if (head.getNext() == head) { // пустой циклический список
             FunctionNode newNode = new FunctionNode(point);
@@ -243,6 +245,7 @@ public class LinkedListTabulatedFunction implements TabulatedFunction {
             pointsCount = 1;
             return;
         }
+
         // поиск позиции для вставки
         FunctionNode current = head.getNext();
         FunctionNode prevNode = head;
@@ -267,6 +270,13 @@ public class LinkedListTabulatedFunction implements TabulatedFunction {
             current = current.getNext();
             index++;
         }
+        FunctionNode newNode = new FunctionNode(point);
+        newNode.setPrev(prevNode);
+        newNode.setNext(current);
+        prevNode.setNext(newNode);
+        current.setPrev(newNode);
+
+        pointsCount++;
     }
 
     private FunctionNode getNodeByIndex(int index) {
